@@ -20,6 +20,5 @@ public:
 }
 
 int main(int arg, char *argv[]) {
-
-    return0;
+    return 0;
 }

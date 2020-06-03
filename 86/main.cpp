@@ -14,43 +14,30 @@ class Solution
 public:
     ListNode* partition( ListNode* head, int x )
     {
-        queue< ListNode* > gq;
-        queue< ListNode* > lq;
-
-        ListNode* ptr = head;
-        ListNode* save = NULL;
-        while( ptr != NULL )
+        ListNode* before_head = new ListNode( -1 );
+        ListNode* before = before_head;
+        ListNode* after_head = new ListNode( -1 );
+        ListNode* after = after_head;
+        while( head != NULL )
         {
-            save = ptr->next;
-            ptr->next = NULL;
-            if( ptr->val >=x )
-                gq.push( ptr );
+            if( head->val < x )
+            {
+                before->next = head;
+                before = before->next;
+            }
             else
-                lq.push( ptr );
-            ptr = save;
+            {
+                after->next = head;
+                after = after->next;
+            }
+            head = head->next;
         }
-
-        ListNode* dummy = new ListNode( -1 );
-        ptr = dummy;
-        while( !lq.empty() )
-        {
-            save = lq.front();
-            lq.pop();
-            ptr->next = save;
-            ptr = ptr->next;
-        }
-
-        while( !gq.empty() )
-        {
-            save = gq.front();
-            gq.pop();
-            ptr->next = save;
-            ptr = ptr->next;
-        }
-
-        ptr = dummy->next;
-        delete dummy;
-        return ptr;
+        after->next = NULL;
+        before->next = after_head->next;
+        delete after_head;
+        head = before_head->next;
+        delete before_head;
+        return head;
     }
 };
 
